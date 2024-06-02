@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import ImageViewer from './Components/ImageViewer';
 import Button from './Components/Button';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+
 import CircleButton from './Components/CircleButton';
 import IconButton from './Components/IconButton';
+import EmojiPicker from './Components/EmojiPicker';
+import EmojiSticker from './Components/EmojiSticker';
 
 const PlaceHolderImage = require('./assets/images/background-image.png')
 const wHeight = Dimensions.get('window').height 
@@ -15,6 +18,8 @@ export default function App() {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [showAppOptions, setShowAppOptions] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [pickedEmoji, setPickedEmoji] = useState(null);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,17 +41,22 @@ export default function App() {
   };
 
   const onAddSticker = () => {
-    // we will implement this later
+    setIsModalVisible(true);
   };
 
   const onSaveImageAsync = async () => {
     // we will implement this later
   };
 
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <ImageViewer placeHoldderImageSource={PlaceHolderImage} selectedImage={selectedImage}></ImageViewer>
+        {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji}/>}
       </View>
       {showAppOptions ? (
         <View style={styles.optionButtonsContainer}>
@@ -62,6 +72,7 @@ export default function App() {
           <Button label={'Use this photo'} onPress={() => setShowAppOptions(true)}/>
         </View>
       )}
+      <EmojiPicker isVisible={isModalVisible} onClose={onModalClose} setPickedEmoji={setPickedEmoji}></EmojiPicker>
       <StatusBar style="auto" />
     </View>
   );
