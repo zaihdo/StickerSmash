@@ -1,0 +1,2 @@
+# StickerSmash
+First expo project
