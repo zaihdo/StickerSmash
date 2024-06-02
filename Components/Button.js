@@ -1,11 +1,11 @@
 import { StyleSheet, View, Pressable, Text} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function Button({label, theme}) {
+export default function Button({label, theme, onPress}) {
     if (theme === "primary"){
         return(
             <View style={[styles.buttonContainer, {borderColor: '#ffd33d', borderWidth: 4, borderRadius: 18}]}>
-                <Pressable style={[styles.button, { backgroundColor: "#fff" }]} onPress={() => alert('You pressed a button')}>
+                <Pressable style={[styles.button, { backgroundColor: "#fff" }]} onPress={onPress}>
                     <FontAwesome
                         name="image"
                         size={18}

@@ -3,9 +3,12 @@ import {StyleSheet, Image, Dimensions} from 'react-native';
 const wWidth = Dimensions.get('window').width;
 const wHeight = Dimensions.get('window').height;
 
-export default function ImageViewer({ placeHoldderImageSource}){
+export default function ImageViewer({ placeHoldderImageSource, selectedImage}){
+
+    const imageSource = selectedImage ? {uri : selectedImage} : placeHoldderImageSource;
+
     return (
-        <Image source={placeHoldderImageSource} style={styles.image}/>
+        <Image source={imageSource} style={styles.image}/>
     );
 }
 
