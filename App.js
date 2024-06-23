@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions, Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { captureRef } from 'react-native-view-shot';
 import ImageViewer from './Components/ImageViewer';
@@ -12,6 +12,8 @@ import CircleButton from './Components/CircleButton';
 import IconButton from './Components/IconButton';
 import EmojiPicker from './Components/EmojiPicker';
 import EmojiSticker from './Components/EmojiSticker';
+import domtoimage from 'dom-to-image';
+
 
 const PlaceHolderImage = require('./assets/images/background-image.png')
 const wHeight = Dimensions.get('window').height 
@@ -54,19 +56,39 @@ export default function App() {
   };
 
   const onSaveImageAsync = async () => {
-    try {
-      const localUri = await captureRef(imageRef, {
-        height: 440,
-        quality: 1,
-      });
 
-      await MediaLibrary.saveToLibraryAsync(localUri);
-      if (localUri) {
-        alert('Saved!');
+    if (Platform.OS !== 'web'){
+      try {
+        const localUri = await captureRef(imageRef, {
+          height: 440,
+          quality: 1,
+        });
+  
+        await MediaLibrary.saveToLibraryAsync(localUri);
+        if (localUri) {
+          alert('Saved!');
+        }
+      }
+      catch (e) {
+        console.log(e);
       }
     }
-    catch (e) {
-      console.log(e);
+    else {
+      try{
+        const dataUrl = await domtoimage.toJpeg(imageRef.current, {
+          quality: 0.95,
+          width: 330,
+          height: 400
+        })
+
+        let link = document.createElement('a');
+        link.download = 'stickersmash.jpeg';
+        link.href = dataUrl;
+        link.click();
+      }
+      catch{
+        console.log(e);
+      }
     }
   };
 
