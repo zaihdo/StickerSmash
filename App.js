@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Dimensions, Platform } from 'react-native';
+import { StyleSheet, View, Dimensions, Platform, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { captureRef } from 'react-native-view-shot';
 import ImageViewer from './Components/ImageViewer';
@@ -14,6 +14,7 @@ import IconButton from './Components/IconButton';
 import EmojiPicker from './Components/EmojiPicker';
 import EmojiSticker from './Components/EmojiSticker';
 import domtoimage from 'dom-to-image';
+import { MyCheckbox } from './Components/MyCheckbox';
 
 
 const PlaceHolderImage = require('./assets/images/background-image.png')
@@ -107,6 +108,10 @@ export default function App() {
           <ImageViewer placeHoldderImageSource={PlaceHolderImage} selectedImage={selectedImage}></ImageViewer>
           {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji}/>}
         </View>
+        <View style={styles.checkboxContainer}>
+          <MyCheckbox />
+          <Text style={styles.checkboxLabel}>{'⬅️ Click!'}</Text>
+        </View>
       </View>
       {showAppOptions ? (
         <View style={styles.optionButtonsContainer}>
@@ -139,7 +144,9 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     paddingTop: wWidth * 0.2,
-    alignItems: 'center'
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-evenly',
   }, 
 
   image: {
@@ -168,5 +175,15 @@ const styles = StyleSheet.create({
   optionsRow: {
     alignItems: 'center',
     flexDirection: 'row'
-  }
+  },
+
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkboxLabel: {
+    marginLeft: 8,
+    fontWeight: '500',
+    fontSize: 18,
+  },
 });
