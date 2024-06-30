@@ -7,6 +7,7 @@ import ImageViewer from './Components/ImageViewer';
 import Button from './Components/Button';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library'
+import 'expo-router/entry';
 // import * as SplashScreen from 'expo-splash-screen';
 
 import CircleButton from './Components/CircleButton';
